@@ -1,0 +1,31 @@
+name: Build Saturnide EXE
+
+on:
+  push:
+    paths:
+      - 'saturnide_quiz.py'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build the EXE
+        run: pyinstaller --onefile saturnide_quiz.py
+
+      - name: Upload EXE as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: saturnide_quiz_exe
+          path: dist/saturnide_quiz.exe
